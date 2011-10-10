@@ -17,7 +17,7 @@ import org.apache.tools.ant.types.FilterSet;
 /**
  * Creates a filterset using the provided objects. This filterset can then
  * be used in various filtering operations.
- * 
+ *
  * @author paul.jones
  * @author hussein.badakhchani
  */
@@ -30,11 +30,11 @@ public class CreateFilterSetUsingObjects extends BaseGenesisTask {
         objects = new ArrayList<GenesisObjectReference>();
     }
 
-    public void setFiltersetid(String filterSetId) {
+    public void setFiltersetid(final String filterSetId) {
         this.filterSetId = filterSetId;
     }
 
-    public void addConfiguredObject(GenesisObjectReference objRef) {
+    public void addConfiguredObject(final GenesisObjectReference objRef) {
         if (objRef.getName() == null) {
             throw new BuildException("property name is required on declared objects", getLocation());
         }
@@ -101,11 +101,11 @@ public class CreateFilterSetUsingObjects extends BaseGenesisTask {
         }
     }
 
-    protected FilterSet getFilterForObject(GenesisObject object) throws IOException {
+    protected FilterSet getFilterForObject(final GenesisObject object) throws IOException {
         return getFilterForProperties(object.getContentAsProperties());
     }
 
-    protected FilterSet getFilterForProperties(Properties props) {
+    protected FilterSet getFilterForProperties(final Properties props) {
         FilterSet result = new FilterSet();
 
         //TODO Consider changing this to use the stringPropertyNames method
