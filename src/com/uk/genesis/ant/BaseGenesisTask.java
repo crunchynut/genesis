@@ -18,7 +18,7 @@ public class BaseGenesisTask extends Task {
     private String genesisXml;
     private GenesisLoader loader = null;
 
-    public void setGenesisxml(String genesisXml) {
+    public void setGenesisxml(final String genesisXml) {
         this.genesisXml = genesisXml;
     }
 
@@ -34,9 +34,11 @@ public class BaseGenesisTask extends Task {
             try {
                 loader.load(this.genesisXml);
             } catch (IOException ex) {
-                throw new BuildException("Failed to load " + genesisXml + " as Genesis root: " + ex.getMessage(), ex, getLocation());
+                throw new BuildException("Failed to load " + genesisXml
+                + " as Genesis root: " + ex.getMessage(), ex, getLocation());
             } catch (InvalidGenesisConfigurationException ex) {
-                throw new BuildException("Failed to load " + genesisXml + " as Genesis root: " + ex.getMessage(), ex, getLocation());
+                throw new BuildException("Failed to load " + genesisXml
+                + " as Genesis root: " + ex.getMessage(), ex, getLocation());
             }
         }
 
