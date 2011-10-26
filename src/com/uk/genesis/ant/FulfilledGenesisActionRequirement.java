@@ -12,7 +12,9 @@ public class FulfilledGenesisActionRequirement {
     private GenesisArchetypeRequirement requirement;
     private GenesisObject[] objects;
 
-    public FulfilledGenesisActionRequirement(GenesisArchetypeRequirement requirement, GenesisObject[] objects) {
+    public FulfilledGenesisActionRequirement(
+            final GenesisArchetypeRequirement requirement,
+            final GenesisObject[] objects) {
         this.requirement = requirement;
         this.objects = objects;
     }
