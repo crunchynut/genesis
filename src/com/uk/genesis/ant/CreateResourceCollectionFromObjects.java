@@ -14,7 +14,6 @@ import org.apache.tools.ant.types.FileList;
 
 /**
  * Creates a FileSet containing the files relevant to all matched objects.
- * 
  * @author paul.jones
  */
 public class CreateResourceCollectionFromObjects extends BaseGenesisTask {
@@ -27,7 +26,7 @@ public class CreateResourceCollectionFromObjects extends BaseGenesisTask {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
@@ -35,7 +34,7 @@ public class CreateResourceCollectionFromObjects extends BaseGenesisTask {
         return in;
     }
 
-    public void setIn(String in) {
+    public void setIn(final String in) {
         this.in = in;
     }
 
@@ -43,7 +42,7 @@ public class CreateResourceCollectionFromObjects extends BaseGenesisTask {
         return resourcecollection;
     }
 
-    public void setResourcecollection(String fileset) {
+    public void setResourcecollection(final String fileset) {
         this.resourcecollection = fileset;
     }
 
@@ -58,17 +57,21 @@ public class CreateResourceCollectionFromObjects extends BaseGenesisTask {
             ModelReader mr = getGenesisLoader().getModelReader();
             GenesisObjectType objType = mr.findSingleObjectType(type);
             if (objType == null) {
-                throw new BuildException("Type " + type + " is invalid", getLocation());
+                throw new BuildException("Type " + type + " is invalid",
+                        getLocation());
             }
 
             // Get all the instances of the object
             GenesisObject[] instances = null;
             if (in != null) {
                 GenesisObject parent = objType.getParent().getInstance(in);
-                instances = EnumUtils.enumerateChildObjectsOfType(parent, objType);
-            } else {
+                instances = EnumUtils.enumerateChildObjectsOfType(parent,
+                        objType);
+            }
+            else {
                 GenesisObjectType[] rootTypes = mr.getRootObjectTypes();
-                instances = EnumUtils.enumerateChildObjectsOfType(null, rootTypes, objType);
+                instances = EnumUtils.enumerateChildObjectsOfType(null,
+                        rootTypes, objType);
             }
 
             // Build the fileset
@@ -86,8 +89,8 @@ public class CreateResourceCollectionFromObjects extends BaseGenesisTask {
             throw new BuildException(ex.getMessage(), ex, getLocation());
         }
 
-//		FilenameSelector sel = new FilenameSelector();
-//		result.addFilename();
+        // FilenameSelector sel = new FilenameSelector();
+        // result.addFilename();
     }
 
     @Override
