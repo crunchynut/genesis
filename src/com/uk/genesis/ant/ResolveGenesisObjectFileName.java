@@ -9,7 +9,7 @@ import org.apache.tools.ant.BuildException;
 
 /**
  * Ant task for resolving a given object into a path for the file.
- * 
+ *
  * @author paul.jones
  */
 public class ResolveGenesisObjectFileName extends BaseGenesisTask {
@@ -18,15 +18,15 @@ public class ResolveGenesisObjectFileName extends BaseGenesisTask {
     private String objectName;
     private String propertyName;
 
-    public void setType(String objectType) {
+    public void setType(final String objectType) {
         this.objectType = objectType;
     }
 
-    public void setName(String objectName) {
+    public void setName(final String objectName) {
         this.objectName = objectName;
     }
 
-    public void setProperty(String propertyName) {
+    public void setProperty(final String propertyName) {
         this.propertyName = propertyName;
     }
 
@@ -35,15 +35,19 @@ public class ResolveGenesisObjectFileName extends BaseGenesisTask {
 
         try {
             // Try to find the object
-            GenesisObjectType type = getGenesisLoader().getModelReader().findSingleObjectType(this.objectType);
+            GenesisObjectType type = getGenesisLoader().getModelReader()
+                    .findSingleObjectType(this.objectType);
             GenesisObject obj = type.getInstance(this.objectName);
 
             // Output the property
-            getProject().setProperty(this.propertyName, obj.getContentLocation().getAbsolutePath());
+            getProject().setProperty(this.propertyName,
+                    obj.getContentLocation().getAbsolutePath());
         } catch (ModelException ex) {
-            throw new BuildException("Genesis Object Type " + this.objectType + " is not valid", ex, getLocation());
+            throw new BuildException("Genesis Object Type " + this.objectType
+                    + " is not valid", ex, getLocation());
         } catch (GenesisObjectNotFoundException ex) {
-            throw new BuildException("Genesis Object " + this.objectName + " was not found", ex, getLocation());
+            throw new BuildException("Genesis Object " + this.objectName
+                    + " was not found", ex, getLocation());
         }
     }
 
@@ -57,7 +61,8 @@ public class ResolveGenesisObjectFileName extends BaseGenesisTask {
             throw new BuildException("property name is required", getLocation());
         }
         if (this.propertyName == null) {
-            throw new BuildException("property property is required", getLocation());
+            throw new BuildException("property property is required",
+                    getLocation());
         }
     }
 }
