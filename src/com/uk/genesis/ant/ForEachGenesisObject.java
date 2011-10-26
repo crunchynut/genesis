@@ -11,7 +11,7 @@ import org.apache.tools.ant.taskdefs.MacroInstance;
 
 /**
  * Ant task that enumerates child objects of the given object.
- * 
+ *
  * @author paul.jones
  */
 public class ForEachGenesisObject extends BaseGenesisTask {
@@ -28,56 +28,60 @@ public class ForEachGenesisObject extends BaseGenesisTask {
      * Sets the type of genesis object that is desired.
      * @param type the type of the object that is to be enumerated.
      */
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
     /**
-     * Sets the name of the genesis object that is the parent of the objects to be enumerated.
-     * @param name the name of the object that will have its children enumerated.
+     * Sets the name of the genesis object that is the parent of
+     * the objects to be enumerated.
+     * @param name the name of the object that will have its children
+     * enumerated.
      */
-    public void setIn(String in) {
+    public void setIn(final String in) {
         this.in = in;
     }
 
     /**
-     * Sets the name of the parameter that will be made available within the macro containing
-     * the path to the enumerated file.
+     * Sets the name of the parameter that will be made available
+     * within the macro containing the path to the enumerated file.
      * @param pathParam the name of the parameter to use
      */
-    public void setPathParam(String pathParam) {
+    public void setPathParam(final String pathParam) {
         this.pathParam = pathParam;
     }
 
     /**
-     * Sets the name of the parameter that will be made available within the macro containing
-     * the (local) name of the enumerated object.
+     * Sets the name of the parameter that will be made available within
+     * the macro containing the (local) name of the enumerated object.
      * @param nameParam the name of the parameter to use
      */
-    public void setNameParam(String nameParam) {
+    public void setNameParam(final String nameParam) {
         this.nameParam = nameParam;
     }
 
     /**
-     * Sets the name of the parameter that will be made available within the macro containing
-     * the (qualified) name of the enumerated object.
+     * Sets the name of the parameter that will be made available within
+     * the macro containing the (qualified) name of the enumerated object.
      * @param nameParam the name of the parameter to use
      */
-    public void setQualifiedNameParam(String qualifiedNameParam) {
+    public void setQualifiedNameParam(final String qualifiedNameParam) {
         this.qualifiednameParam = qualifiedNameParam;
     }
 
-    /* Sets the name of the parameter that will be made available within the macro containing
-     * the type of the enumerated object.
+    /*
+     * Sets the name of the parameter that will be made available within
+     * the macro containing the type of the enumerated object.
      * @param typeParam the name of the parameter to use
      */
-    public void setTypeParam(String typeParam) {
+    public void setTypeParam(final String typeParam) {
         this.typeParam = typeParam;
     }
 
     /**
-     * Creates a sequential object that can be configured. Note that this delegates to a macrodef task,
-     * allowing it to assist with parameter substitution.
+     * Creates a sequential object that can be configured. Note that this
+     * delegates to a macrodef task, allowing it to assist with parameter
+     * substitution.
      * @return the sequential object instance.
      */
     public Object createSequential() {
@@ -121,31 +125,39 @@ public class ForEachGenesisObject extends BaseGenesisTask {
         GenesisObjectType enumType = null;
         GenesisObject enumObj = null;
         try {
-            enumType = getGenesisLoader().getModelReader().findSingleObjectType(type);
+            enumType = getGenesisLoader().getModelReader()
+                    .findSingleObjectType(type);
             if (enumType == null) {
-                throw new BuildException("Invalid enumerable object type " + type, getLocation());
+                throw new BuildException("Invalid enumerable object type "
+                        + type, getLocation());
             }
 
             GenesisObjectType containerType = enumType.getParent();
             enumObj = containerType.getInstance(in);
         } catch (ModelException ex) {
-            throw new BuildException("Invalid enumerable object type - " + ex.getMessage(), ex, getLocation());
+            throw new BuildException("Invalid enumerable object type - "
+                    + ex.getMessage(), ex, getLocation());
         } catch (GenesisObjectNotFoundException ex) {
-            throw new BuildException("Invalid enumerable object not found - " + ex.getMessage(), ex, getLocation());
+            throw new BuildException("Invalid enumerable object not found - "
+                    + ex.getMessage(), ex, getLocation());
         }
 
         // Request that the parent object enumerate itself
         try {
             for (GenesisObject child : enumObj.getChildren(enumType)) {
-                executeSingleIteration(child.getName(), child.getQualifiedName(), child.getType().getQualifiedName(),
-                        child.getContentLocation().getAbsolutePath());
+                executeSingleIteration(child.getName(),
+                        child.getQualifiedName(), child.getType()
+                                .getQualifiedName(), child.getContentLocation()
+                                .getAbsolutePath());
             }
         } catch (ModelException ex) {
-            throw new BuildException("Failed to enumerate " + enumObj.getName() + " - " + ex.getMessage(), ex, getLocation());
+            throw new BuildException("Failed to enumerate " + enumObj.getName()
+                    + " - " + ex.getMessage(), ex, getLocation());
         }
     }
 
-    protected void executeSingleIteration(String name, String qualifiedName, String typeName, String path) {
+    protected void executeSingleIteration(final String name,
+            final String qualifiedName, final String typeName, final String path) {
         // Create the macro-instance
         MacroInstance instance = new MacroInstance();
         instance.setProject(getProject());
@@ -159,7 +171,8 @@ public class ForEachGenesisObject extends BaseGenesisTask {
             instance.setDynamicAttribute(nameParam.toLowerCase(), name);
         }
         if (qualifiednameParam != null) {
-            instance.setDynamicAttribute(qualifiednameParam.toLowerCase(), qualifiedName);
+            instance.setDynamicAttribute(qualifiednameParam.toLowerCase(),
+                    qualifiedName);
         }
         if (typeParam != null) {
             instance.setDynamicAttribute(typeParam.toLowerCase(), typeName);
@@ -175,13 +188,17 @@ public class ForEachGenesisObject extends BaseGenesisTask {
         super.validate();
 
         if (macroDef == null) {
-            throw new BuildException("An embedded <sequential> element must be supplied", getLocation());
+            throw new BuildException(
+                    "An embedded <sequential> element must be supplied",
+                    getLocation());
         }
         if (type == null) {
-            throw new BuildException("No object type was specified", getLocation());
+            throw new BuildException("No object type was specified",
+                    getLocation());
         }
         if (in == null) {
-            throw new BuildException("No object container name was specified", getLocation());
+            throw new BuildException("No object container name was specified",
+                    getLocation());
         }
     }
 }
