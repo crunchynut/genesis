@@ -8,7 +8,7 @@ public class GenesisObjectReference {
     private String name;
     private String ifCheck;
 
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
@@ -16,7 +16,7 @@ public class GenesisObjectReference {
         return type;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -24,7 +24,7 @@ public class GenesisObjectReference {
         return name;
     }
 
-    public void setIf(String ifCheck) {
+    public void setIf(final String ifCheck) {
         this.ifCheck = ifCheck;
     }
 
@@ -32,7 +32,7 @@ public class GenesisObjectReference {
         return ifCheck;
     }
 
-    public boolean isValid(Project project) {
+    public boolean isValid(final Project project) {
         // If there was no if check, then we're always valid
         if (ifCheck == null) {
             return true;
@@ -44,8 +44,8 @@ public class GenesisObjectReference {
             String cleanProp = property.trim();
 
             if (cleanProp.length() > 0) {
-                // If the property has an undefined value, then this object reference is
-                // not valid.
+                // If the property has an undefined value,
+                //then this object reference is not valid.
                 if (project.getProperty(cleanProp) == null) {
                     return false;
                 }
