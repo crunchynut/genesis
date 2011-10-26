@@ -2,7 +2,7 @@ package com.uk.genesis.ant;
 
 
 /**
- * 
+ *
  * @author Mike Mochan
  *
  */
@@ -15,7 +15,7 @@ public String getValueget() {
     return valueget;
 }
 
-public void setValueget(String valueget) {
+public void setValueget(final String valueget) {
     this.valueget = valueget;
 }
 
@@ -23,10 +23,10 @@ public String getValueset() {
     return valueset;
 }
 
-public void setValueset(String valueset) {
+public void setValueset(final String valueset) {
     this.valueset = valueset;
 }
 
 
-  
+
 }
