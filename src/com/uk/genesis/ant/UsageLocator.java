@@ -27,7 +27,7 @@ public class UsageLocator extends Task {
         resources = new ArrayList<ResourceCollection>();
     }
 
-    public void add(ResourceCollection col) {
+    public void add(final ResourceCollection col) {
         this.resources.add(col);
     }
 
@@ -35,7 +35,7 @@ public class UsageLocator extends Task {
         return token;
     }
 
-    public void setToken(String token) {
+    public void setToken(final String token) {
         this.token = token;
     }
 
@@ -50,9 +50,11 @@ public class UsageLocator extends Task {
         try {
             boolean foundUsage = false;
 
-            // Work through each of the supplied resources, and search for tokens
+            // Work through each of the supplied resources,
+            // and search for tokens
             for (ResourceCollection col : resources) {
-                for (Iterator<?> resourceIt = col.iterator(); resourceIt.hasNext();) {
+                for (Iterator<?> resourceIt = col.iterator(); resourceIt
+                        .hasNext();) {
                     Resource res = (Resource) resourceIt.next();
 
                     if (processStream(res.getName(), res.getInputStream())) {
@@ -63,15 +65,17 @@ public class UsageLocator extends Task {
                 }
             }
 
-            if (!foundUsage) {
+            if (! foundUsage) {
                 log("  No usages found.");
             }
         } catch (IOException ex) {
-            throw new BuildException("Failed to process resource", ex, getLocation());
+            throw new BuildException("Failed to process resource",
+                                        ex, getLocation());
         }
     }
 
-    private boolean processStream(String resName, InputStream stream) throws IOException {
+    private boolean processStream(final String resName, final InputStream stream)
+            throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(stream));
         String line;
 
