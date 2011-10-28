@@ -11,8 +11,9 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 /**
- * Validates either the entire object hierarchy, or the hierarchy starting at a given point.
- * 
+ * Validates either the entire object hierarchy,
+ * or the hierarchy starting at a given point.
+ *
  * @author paul.jones
  */
 public class Validate extends BaseGenesisTask {
@@ -21,15 +22,15 @@ public class Validate extends BaseGenesisTask {
     private String objectName;
     private boolean validateChildren = true;
 
-    public void setType(String objectType) {
+    public void setType(final String objectType) {
         this.objectType = objectType;
     }
 
-    public void setName(String objectName) {
+    public void setName(final String objectName) {
         this.objectName = objectName;
     }
 
-    public void setValidateChildren(boolean validateChildren) {
+    public void setValidateChildren(final boolean validateChildren) {
         this.validateChildren = validateChildren;
     }
 
@@ -46,33 +47,42 @@ public class Validate extends BaseGenesisTask {
         if (this.objectName != null) {
             try {
                 // Try to find the object
-                GenesisObjectType type = modelReader.findSingleObjectType(this.objectType);
+                GenesisObjectType type = modelReader
+                        .findSingleObjectType(this.objectType);
                 GenesisObject obj = type.getInstance(this.objectName);
 
                 success = validateObject(obj);
             } catch (ModelException ex) {
-                throw new BuildException("Genesis Object Type " + this.objectType + " is not valid - " + ex.getMessage(), ex, getLocation());
+                throw new BuildException("Genesis Object Type "
+                        + this.objectType + " is not valid - "
+                        + ex.getMessage(), ex, getLocation());
             } catch (GenesisObjectNotFoundException ex) {
-                throw new BuildException("Genesis Object " + this.objectName + " was not found - " + ex.getMessage(), ex, getLocation());
+                throw new BuildException("Genesis Object "
+                        + this.objectName + " was not found - "
+                        + ex.getMessage(), ex, getLocation());
             }
-        } else {
+        }
+        else {
             try {
                 // Walk through each of instance of each root type
-                for (GenesisObjectType rootType : modelReader.getRootObjectTypes()) {
-                    GenesisObject[] rootInstances = rootType.getAllChildInstances(null);
+                for (GenesisObjectType rootType : modelReader
+                        .getRootObjectTypes()) {
+                    GenesisObject[] rootInstances = rootType
+                            .getAllChildInstances(null);
 
                     for (GenesisObject rootInstance : rootInstances) {
-                        if (!validateObject(rootInstance)) {
+                        if (! validateObject(rootInstance)) {
                             success = false;
                         }
                     }
                 }
             } catch (ModelException ex) {
-                throw new BuildException("Could not enumerate root types - " + ex.getMessage(), ex, getLocation());
+                throw new BuildException("Could not enumerate root types - "
+                        + ex.getMessage(), ex, getLocation());
             }
         }
 
-        if (!success) {
+        if (! success) {
             throw new BuildException("Validation failed", getLocation());
         }
     }
@@ -80,28 +90,39 @@ public class Validate extends BaseGenesisTask {
     protected void validate() throws BuildException {
         super.validate();
 
-        // Name and Type must either both be specified, or both not be specified
+        // Name and Type must either both be specified,
+        // or both not be specified
         if (this.objectType != null || this.objectName != null) {
             if (this.objectType == null) {
-                throw new BuildException("property type is required when name property is specified", getLocation());
+                throw new BuildException(
+                    "property type is required when name property is specified",
+                    getLocation());
             }
             if (this.objectName == null) {
-                throw new BuildException("property name is required when type property is specified", getLocation());
+                throw new BuildException(
+                    "property name is required when type property is specified",
+                    getLocation());
             }
         }
     }
 
-    protected boolean validateObject(GenesisObject obj) {
+    protected boolean validateObject(final GenesisObject obj) {
         boolean result = true;
 
         // Validate the primary object
         try {
             obj.validate();
 
-            getProject().log("Object " + obj.getQualifiedName() + " of type " + obj.getType().getQualifiedName() + " successfully validated", Project.MSG_VERBOSE);
+            getProject().log(
+                    "Object " + obj.getQualifiedName() + " of type "
+                            + obj.getType().getQualifiedName()
+                            + " successfully validated", Project.MSG_VERBOSE);
         } catch (GenesisObjectValidationException ex) {
-            getProject().log("Object " + obj.getQualifiedName() + " of type " + obj.getType().getQualifiedName() +
-                    " failed validation - " + ex.getMessage(), Project.MSG_ERR);
+            getProject().log(
+                    "Object " + obj.getQualifiedName() + " of type "
+                            + obj.getType().getQualifiedName()
+                            + " failed validation - " + ex.getMessage(),
+                    Project.MSG_ERR);
             result = false;
         }
 
@@ -110,14 +131,16 @@ public class Validate extends BaseGenesisTask {
             try {
                 for (GenesisObjectType childType : obj.getType().getChildren()) {
                     for (GenesisObject child : obj.getChildren(childType)) {
-                        if (!validateObject(child)) {
+                        if (! validateObject(child)) {
                             result = false;
                         }
                     }
                 }
             } catch (ModelException ex) {
-                getProject().log("Failed to get child types for " + obj.getType().getQualifiedName() +
-                        " - " + ex.getMessage(), Project.MSG_ERR);
+                getProject().log(
+                        "Failed to get child types for "
+                                + obj.getType().getQualifiedName() + " - "
+                                + ex.getMessage(), Project.MSG_ERR);
             }
         }
 
