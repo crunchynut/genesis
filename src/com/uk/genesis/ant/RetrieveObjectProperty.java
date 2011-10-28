@@ -22,7 +22,7 @@ public class RetrieveObjectProperty extends BaseGenesisTask {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -30,7 +30,7 @@ public class RetrieveObjectProperty extends BaseGenesisTask {
         return property;
     }
 
-    public void setProperty(String property) {
+    public void setProperty(final String property) {
         this.property = property;
     }
 
@@ -38,7 +38,7 @@ public class RetrieveObjectProperty extends BaseGenesisTask {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
@@ -46,7 +46,7 @@ public class RetrieveObjectProperty extends BaseGenesisTask {
         return token;
     }
 
-    public void setToken(String token) {
+    public void setToken(final String token) {
         this.token = token;
     }
 
@@ -55,18 +55,20 @@ public class RetrieveObjectProperty extends BaseGenesisTask {
 
         try {
             ModelReader modelReader = getGenesisLoader().getModelReader();
-            GenesisObjectType type = modelReader.findSingleObjectType(getType());
+            GenesisObjectType type = modelReader
+                    .findSingleObjectType(getType());
             if (type == null) {
                 throw new BuildException("Type " + getType() + " is invalid");
             }
             GenesisObject object = type.getInstance(getName());
             Properties props = object.getContentAsProperties();
-            getProject().setProperty(getProperty(), props.getProperty(getToken()));
+            getProject().setProperty(getProperty(),
+                    props.getProperty(getToken()));
         } catch (ModelException ex) {
             throw new BuildException(ex.getMessage(), ex, getLocation());
         } catch (GenesisObjectNotFoundException ex) {
-            throw new BuildException("Object " + getName() + " of type " + getType() + " was not found",
-                    ex, getLocation());
+            throw new BuildException("Object " + getName() + " of type "
+                    + getType() + " was not found", ex, getLocation());
         } catch (IOException ex) {
             throw new BuildException(ex.getMessage(), ex, getLocation());
         }
@@ -77,16 +79,20 @@ public class RetrieveObjectProperty extends BaseGenesisTask {
         super.validate();
 
         if (getName() == null) {
-            throw new BuildException("name parameter must be set", getLocation());
+            throw new BuildException("name parameter must be set",
+                    getLocation());
         }
         if (getType() == null) {
-            throw new BuildException("type parameter must be set", getLocation());
+            throw new BuildException("type parameter must be set",
+                    getLocation());
         }
         if (getProperty() == null) {
-            throw new BuildException("property parameter must be set", getLocation());
+            throw new BuildException("property parameter must be set",
+                    getLocation());
         }
         if (getToken() == null) {
-            throw new BuildException("token parameter must be set", getLocation());
+            throw new BuildException("token parameter must be set",
+                    getLocation());
         }
     }
 }
