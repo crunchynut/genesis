@@ -101,7 +101,7 @@ public class VerifyCerts extends Task {
                     // System.out.println("ST = " + st.toString());
 
                     String split = "";
-                    for (int x = 0; st.hasMoreTokens(); x++ ) {
+                    for (int x = 0; st.hasMoreTokens(); x++) {
                         split = st.nextElement().toString();
                         if (split.endsWith("jks")) {
                             keystoreFile = split;
@@ -118,8 +118,8 @@ public class VerifyCerts extends Task {
                             // required format for cert password
                             char[] storepass = password.toCharArray();
 
-                            if (! keystoreFile.startsWith("trust")
-                                    && ! keystoreFile.contains("nm-")) {
+                            if (!keystoreFile.startsWith("trust")
+                                    && !keystoreFile.contains("nm-")) {
 
                                 // System.out.println("Processing :" +
                                 // keystoreFile);
@@ -174,11 +174,10 @@ public class VerifyCerts extends Task {
             strIdx = strKey.lastIndexOf(".");
             pwdKey = (strKey.substring(0, strIdx) + "."
             + "CustomIdentityKeyStorePassPhrase");
-        }
-        else if (globalPattern.toString().contains(
+        } else if (globalPattern.toString().contains(
                 "CustomTrustKeyStoreFileName")
                 && x != 1) {
-            x++ ;
+            x++;
             strIdx = strKey.lastIndexOf(".");
             pwdKey = (strKey.substring(0, strIdx) + "."
                     + "CustomTrustKeyStorePassPhrase");
