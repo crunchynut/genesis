@@ -14,9 +14,9 @@ import com.uk.genesis.model.ModelReader;
 import org.apache.tools.ant.BuildException;
 
 /**
- * Task that provides the ability to query a given configuration value across
- * all object types in the hierarchy.
- * 
+ * Task that provides the ability to query a given
+ * configuration value across all object types in the hierarchy.
+ *
  * @author paul.jones
  */
 public class ValueLocator extends BaseGenesisTask {
@@ -28,7 +28,7 @@ public class ValueLocator extends BaseGenesisTask {
         return property;
     }
 
-    public void setProperty(String property) {
+    public void setProperty(final String property) {
         this.property = property;
     }
 
@@ -36,7 +36,7 @@ public class ValueLocator extends BaseGenesisTask {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
@@ -48,7 +48,8 @@ public class ValueLocator extends BaseGenesisTask {
         try {
             GenesisObjectType objType = mr.findSingleObjectType(getType());
             if (objType == null) {
-                throw new BuildException("The type " + getType() + " is invalid", getLocation());
+                throw new BuildException("The type " + getType()
+                                + " is invalid", getLocation());
             }
 
             // Find all instances of the type
@@ -59,7 +60,8 @@ public class ValueLocator extends BaseGenesisTask {
                 Properties props = instance.getContentAsProperties();
 
                 if (props.containsKey(getProperty())) {
-                    log(instance.getQualifiedName() + ": " + props.getProperty(getProperty()));
+                    log(instance.getQualifiedName() + ": "
+                    + props.getProperty(getProperty()));
                 }
             }
         } catch (ModelException ex) {
@@ -81,7 +83,7 @@ public class ValueLocator extends BaseGenesisTask {
         }
     }
 
-    protected GenesisObject[] getAllInstances(GenesisObjectType objType)
+    protected GenesisObject[] getAllInstances(final GenesisObjectType objType)
             throws ModelException {
         // If the type is a root object, then just get its instances
         GenesisObjectType parentType = objType.getParent();
