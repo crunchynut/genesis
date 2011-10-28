@@ -5,11 +5,9 @@ import java.util.Map;
 import org.apache.tools.ant.types.FilterSet;
 
 /**
- * Creates filters out of designated object in Genesis
- * Configuration Hierarchy.
+ * Creates filters out of designated object in Genesis Configuration Hierarchy.
  * @author Mike Mochan
  * @author Hussein Badakhchani
- *
  */
 
 public class RetrieveObjectProperties extends BaseGenesisTask {
@@ -24,18 +22,18 @@ public class RetrieveObjectProperties extends BaseGenesisTask {
         // Add the global configuration
 
         Map<?, ?> map = fs.getFilterHash();
-        
 
         for (Iterator<?> it = map.keySet().iterator(); it.hasNext();) {
             Object key = it.next();
             Object value = map.get(key);
             // Add to Global properties
             addToProject(key.toString(), value.toString());
-//                System.out.println("found map key : " + key.toString() + " with value of : " + value.toString());
+            // System.out.println("found map key : " + key.toString() +
+            // " with value of : " + value.toString());
         }
     }
 
-    public void addToProject(String key, String value) {
+    public void addToProject(final String key, final String value) {
         getProject().setProperty(getPrefix() + key, value);
     }
 
@@ -43,7 +41,7 @@ public class RetrieveObjectProperties extends BaseGenesisTask {
         return filtername;
     }
 
-    public void setFiltername(String filtername) {
+    public void setFiltername(final String filtername) {
         this.filtername = filtername;
     }
 
@@ -51,8 +49,7 @@ public class RetrieveObjectProperties extends BaseGenesisTask {
         return prefix;
     }
 
-    public void setPrefix(String prefix) {
+    public void setPrefix(final String prefix) {
         this.prefix = prefix;
     }
 }
-
