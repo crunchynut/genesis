@@ -1,7 +1,7 @@
 package com.uk.genesis.weblogic;
 
 /**
- * defines pattern element - Used by all internal 
+ * defines pattern element - Used by all internal
  * classes to pass property from ant task.
  * @author Mike Mochan
  */

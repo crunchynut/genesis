@@ -22,7 +22,7 @@ import org.apache.tools.ant.types.FilterSet;
  * e.g. <tripledes encryptionservice="./archetypes/wlserver92/security"
  * filtername="genesis.filter.properties">
  * and pattern match property
- * e.g. <match pattern=".*KeyPassPhrase" />  
+ * e.g. <match pattern=".*KeyPassPhrase" />
  *
  * @author Mike Mochan
  *
@@ -66,7 +66,7 @@ public class TripleDes extends Task {
             throw new BuildException("encryptionservice must be set",
                     getLocation());
         }
-        if (! new File(getEncryptionservice()).exists()) {
+        if (!new File(getEncryptionservice()).exists()) {
             throw new BuildException("encryptionservice directory must exist",
                     getLocation());
         }

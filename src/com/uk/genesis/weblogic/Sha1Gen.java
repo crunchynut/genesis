@@ -64,7 +64,8 @@ public class Sha1Gen extends Task {
                     fs.addFilter(property,
                             ("{SHA1}" + encrypt(value.toString())));
                 } catch (NoSuchAlgorithmException nsa) {
-                    throw new BuildException("No such Algorithm", getLocation());
+                    throw new BuildException("No such Algorithm",
+                            getLocation());
                 }
             }
         }

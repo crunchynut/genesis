@@ -46,7 +46,7 @@ public class KeystoreCopy extends Task {
                     munge = value.toString();
                     StringTokenizer st = new StringTokenizer(munge, "/");
                     String split = "";
-                    for (int x = 0; st.hasMoreTokens(); x++ ) {
+                    for (int x = 0; st.hasMoreTokens(); x++) {
                         split = st.nextElement().toString();
                         if (split.endsWith("jks")) {
                             File in = new File(srcfile + "/" + split);
@@ -71,7 +71,7 @@ public class KeystoreCopy extends Task {
         FileOutputStream fos = new FileOutputStream(out);
         byte[] buf = new byte[1024];
         int i = 0;
-        while ((i = fis.read(buf)) != - 1) {
+        while ((i = fis.read(buf)) != -1) {
             fos.write(buf, 0, i);
         }
         fis.close();
