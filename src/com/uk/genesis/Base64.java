@@ -139,8 +139,7 @@ package com.uk.genesis;
  * @author rob@iharder.net
  * @version 2.3.3
  */
-public class Base64
-{
+public class Base64 {
 
 /* ********  P U B L I C   F I E L D S  ******** */
 
@@ -202,17 +201,19 @@ public class Base64
     /** Preferred encoding. */
     private static final String PREFERRED_ENCODING = "US-ASCII";
 
+    /**Indicates white space in encoding*/
+    private static final byte WHITE_SPACE_ENC = -5;
 
-    private static final byte WHITE_SPACE_ENC = -5; // Indicates white space in encoding
-    private static final byte EQUALS_SIGN_ENC = -1; // Indicates equals sign in encoding
+    /**Indicates equals sign in encoding*/
+    private static final byte EQUALS_SIGN_ENC = -1;
 
 
 /* ********  S T A N D A R D   B A S E 6 4   A L P H A B E T  ******** */
 
-    /** The 64 valid Base64 values. */
     /* Host platform may be something funny like EBCDIC,
      * so we hardcode these values.
      */
+    /** The 64 valid Base64 values. */
     private static final byte[] STANDARD_ALPHABET = {
         (byte) 'A', (byte) 'B', (byte) 'C', (byte) 'D', (byte) 'E', (byte) 'F', (byte) 'G',
         (byte) 'H', (byte) 'I', (byte) 'J', (byte) 'K', (byte) 'L', (byte) 'M', (byte) 'N',
@@ -516,8 +517,8 @@ public class Base64
                      | (numSigBytes > 1 ? ((source[ srcOffset + 1 ] << 24) >>> 16) : 0)
                      | (numSigBytes > 2 ? ((source[ srcOffset + 2 ] << 24) >>> 24) : 0);
 
-        switch(numSigBytes)
-        {
+        switch(numSigBytes) {
+
             case 3:
                 destination[ destOffset     ] = ALPHABET[ (inBuff >>> 18)        ];
                 destination[ destOffset + 1 ] = ALPHABET[ (inBuff >>> 12) & 0x3f ];
@@ -966,8 +967,8 @@ public class Base64
                 encode3to4(source, d + off, 3, outBuff, e, options);
 
                 lineLength += 4;
-                if (breakLines && lineLength >= MAX_LINE_LENGTH)
-                {
+                if (breakLines && lineLength >= MAX_LINE_LENGTH) {
+
                     outBuff[e + 4] = NEW_LINE;
                     e++;
                     lineLength = 0;
@@ -1077,7 +1078,7 @@ public class Base64
             destination[ destOffset + 1 ] = (byte) (outBuff >>>  8);
             return 2;
          // Example: DkLE
-        } else { 
+        } else {
             // Two ways to do the same thing. Don't know which way I like best.
           //int outBuff =   ( ( DECODABET[ source[ srcOffset     ] ] << 24 ) >>>  6 )
           //              | ( ( DECODABET[ source[ srcOffset + 1 ] ] << 24 ) >>> 12 )
@@ -1435,8 +1436,7 @@ public class Base64
 
         byte[] decodedData = null;
         Base64.InputStream bis = null;
-        try
-        {
+        try {
             // Set up some useful variables
             java.io.File file = new java.io.File(filename);
             byte[] buffer = null;
@@ -1444,9 +1444,10 @@ public class Base64
             int numBytes = 0;
 
             // Check for size of file
-            if (file.length() > Integer.MAX_VALUE)
-            {
-                throw new java.io.IOException("File is too big for this convenience method (" + file.length() + " bytes).");
+            if (file.length() > Integer.MAX_VALUE) {
+                throw new java.io.IOException(
+                    "File is too big for this convenience method ("
+                    + file.length() + " bytes).");
             }   // end if: file too big for int index
             buffer = new byte[ (int) file.length() ];
 
@@ -1495,8 +1496,7 @@ public class Base64
 
         String encodedData = null;
         Base64.InputStream bis = null;
-        try
-        {
+        try {
             // Set up some useful variables
             java.io.File file = new java.io.File(filename);
             byte[] buffer = new byte[ Math.max((int) (file.length() * 1.4), 40) ]; // Need max() for math on small files (v2.2.1)
@@ -1574,7 +1574,7 @@ public class Base64
 
         } catch (java.io.IOException e) {
             throw e; // Catch and release to execute finally{}
-            
+
         } finally {
             try { out.close(); }
             catch (Exception ex) {}
@@ -1596,16 +1596,35 @@ public class Base64
      */
     public static class InputStream extends java.io.FilterInputStream {
 
-        private boolean encode;         // Encoding or decoding
-        private int     position;       // Current position in the buffer
-        private byte[]  buffer;         // Small buffer holding converted data
-        private int     bufferLength;   // Length of buffer (3 or 4)
-        private int     numSigBytes;    // Number of meaningful bytes in the buffer
-        private int     lineLength;
-        private boolean breakLines;     // Break lines at less than 80 characters
-        private int     options;        // Record options used to create the stream.
-        private byte[]  alphabet;       // Local copies to avoid extra method calls
-        private byte[]  decodabet;      // Local copies to avoid extra method calls
+        /**Encoding or decoding*/
+        private boolean encode;
+
+        /**Current position in the buffer*/
+        private int position;
+
+        /**Small buffer holding converted data*/
+        private byte[] buffer;
+
+        /**Length of buffer (3 or 4)*/
+        private int bufferLength;
+
+        /**Number of meaningful bytes in the buffer*/
+        private int numSigBytes;
+
+        /**line length**/
+        private int lineLength;
+
+        /**Break lines at less than 80 characters*/
+        private boolean breakLines;
+
+        /**Record options used to create the stream.*/
+        private int options;
+
+        /**Local copies to avoid extra method calls*/
+        private byte[] alphabet;
+
+        /**Local copies to avoid extra method calls*/
+        private byte[] decodabet;
 
 
         /**
