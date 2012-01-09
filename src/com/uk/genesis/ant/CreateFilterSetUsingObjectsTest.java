@@ -8,12 +8,12 @@ import junit.framework.TestCase;
 
 public class CreateFilterSetUsingObjectsTest extends TestCase {
     public void testAddConfiguredObjectAcceptsValidObject() {
-        GenesisObjectReference ref = new GenesisObjectReference();
+        final GenesisObjectReference ref = new GenesisObjectReference();
 
         ref.setType("Enterprise/Datacentre/Rack/Node");
         ref.setName("/Object/Test");
 
-        CreateFilterSetUsingObjects task = new CreateFilterSetUsingObjects();
+        final CreateFilterSetUsingObjects task = new CreateFilterSetUsingObjects();
         task.init();
         task.addConfiguredObject(ref);
     }
@@ -23,12 +23,12 @@ public class CreateFilterSetUsingObjectsTest extends TestCase {
      * the task a Build Exception should be thrown.
      */
     public void testAddConfiguredObjectRejectsMissingName() {
-        GenesisObjectReference ref = new GenesisObjectReference();
+        final GenesisObjectReference ref = new GenesisObjectReference();
 
         ref.setType("Enterprise/Datacentre/Rack/Node");
         // ref.setName("/Object/Test");
         try {
-            CreateFilterSetUsingObjects task = new CreateFilterSetUsingObjects();
+            final CreateFilterSetUsingObjects task = new CreateFilterSetUsingObjects();
             task.init();
             task.addConfiguredObject(ref);
             fail("Should have thrown BuildException");
@@ -42,13 +42,13 @@ public class CreateFilterSetUsingObjectsTest extends TestCase {
      * the task a Build Exception should be thrown.
      */
     public void testAddConfiguredObjectRejectsMissingType() {
-        GenesisObjectReference ref = new GenesisObjectReference();
+        final GenesisObjectReference ref = new GenesisObjectReference();
 
         // ref.setType("Enterprise/Datacentre/Rack");
         ref.setName("MyEnterprise-00/MyDatacentre-00/MyRack-00/MyNode-00");
 
         try {
-            CreateFilterSetUsingObjects task = new CreateFilterSetUsingObjects();
+            final CreateFilterSetUsingObjects task = new CreateFilterSetUsingObjects();
             task.init();
             task.addConfiguredObject(ref);
             fail("Should have thrown BuildException");
@@ -58,8 +58,8 @@ public class CreateFilterSetUsingObjectsTest extends TestCase {
     }
 
     public void testExecuteRequiresFilterSetId() {
-        CreateFilterSetUsingObjects task = new CreateFilterSetUsingObjects();
-        Project project = new Project();
+        final CreateFilterSetUsingObjects task = new CreateFilterSetUsingObjects();
+        final Project project = new Project();
         task.init();
         task.setProject(project);
         task.setGenesisxml("genesis.xml");
@@ -76,11 +76,11 @@ public class CreateFilterSetUsingObjectsTest extends TestCase {
      * H.B This task is actually testing for a missing attribute in the task
      * which is normally set by a call:
      * task.setGenesisxml("./src/test/etc/genesis.xml");
-     * 
+     *
      */
     public void testThrowsBuildExceptionForMissingGenesisXml() {
-        Project project = new Project();
-        CreateFilterSetUsingObjects task = new CreateFilterSetUsingObjects();
+        final Project project = new Project();
+        final CreateFilterSetUsingObjects task = new CreateFilterSetUsingObjects();
         task.setProject(project);
         task.init();
         task.setFiltersetid("my.filters");
@@ -95,8 +95,8 @@ public class CreateFilterSetUsingObjectsTest extends TestCase {
     }
 
     public void testExecuteAddsFilterSetToProject() {
-        CreateFilterSetUsingObjects task = new CreateFilterSetUsingObjects();
-        Project project = new Project();
+        final CreateFilterSetUsingObjects task = new CreateFilterSetUsingObjects();
+        final Project project = new Project();
         task.init();
         task.setProject(project);
         task.setFiltersetid("testset");
@@ -109,14 +109,14 @@ public class CreateFilterSetUsingObjectsTest extends TestCase {
     }
 
     public void testAddedFiltersetHasHierarchyOfElements() {
-        CreateFilterSetUsingObjects task = new CreateFilterSetUsingObjects();
-        Project project = new Project();
+        final CreateFilterSetUsingObjects task = new CreateFilterSetUsingObjects();
+        final Project project = new Project();
         task.init();
         task.setProject(project);
         task.setFiltersetid("testset");
         task.setGenesisxml("etc/testdata/genesis.xml");
 
-        GenesisObjectReference ref = new GenesisObjectReference();
+        final GenesisObjectReference ref = new GenesisObjectReference();
         ref.setType("Enterprise/Datacentre/Rack/Node");
         ref.setName("MyEnterprise-00/MyDatacentre-00/MyRack-00/MyNode-00");
         task.addConfiguredObject(ref);
@@ -124,8 +124,9 @@ public class CreateFilterSetUsingObjectsTest extends TestCase {
         try {
             task.execute();
 
-            FilterSet filters = (FilterSet) project.getReference("testset");
-            // System.out.println(filters.replaceTokens("@Enterprise.Name@ @Datacentre.Name@ @Rack.Name@"));
+            final FilterSet filters = (FilterSet) project.getReference("testset");
+            // System.out.println(filters.replaceTokens(
+            //"@Enterprise.Name@ @Datacentre.Name@ @Rack.Name@"));
             assertEquals(
                     "MyEnterprise-00 MyDatacentre-00 MyRack-00 MyNode-00",
                     filters.replaceTokens("@Enterprise.Name@ @Datacentre.Name@ @Rack.Name@ @Node.Name@"));
@@ -135,21 +136,21 @@ public class CreateFilterSetUsingObjectsTest extends TestCase {
     }
 
     public void testAddedFiltersetHasHierarchyOfElementsWhenFromXML() {
-        CreateFilterSetUsingObjects task = new CreateFilterSetUsingObjects();
-        Project project = new Project();
+        final CreateFilterSetUsingObjects task = new CreateFilterSetUsingObjects();
+        final Project project = new Project();
         task.init();
         task.setProject(project);
         task.setFiltersetid("testset");
         task.setGenesisxml("etc/testdata/genesis.xml");
 
-        GenesisObjectReference ref = new GenesisObjectReference();
+        final GenesisObjectReference ref = new GenesisObjectReference();
         ref.setType("Enterprise/Datacentre/Rack/Node");
         ref.setName("MyEnterprise-00/MyDatacentre-00/MyRack-00/MyNode-00");
         task.addConfiguredObject(ref);
 
         task.execute();
 
-        FilterSet filters = (FilterSet) project.getReference("testset");
+        final FilterSet filters = (FilterSet) project.getReference("testset");
         assertEquals(
                 "MyEnterprise-00 MyDatacentre-00 MyRack-00 MyNode-00",
                 filters.replaceTokens("@Enterprise.Name@ @Datacentre.Name@ @Rack.Name@ @Node.Name@"));
