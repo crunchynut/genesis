@@ -57,9 +57,9 @@ public class FindTokens extends Task {
             // Work through each of the supplied resources, and search for
             // tokens
             for (ResourceCollection col : resources) {
-                for (Iterator<?> resourceIt = col.iterator(); resourceIt
-                        .hasNext();) {
-                    Resource res = (Resource) resourceIt.next();
+                for (final Iterator<?> resourceIt = col.iterator();
+                        resourceIt.hasNext();) {
+                    final Resource res = (Resource) resourceIt.next();
 
                     processStream(res.getName(), res.getInputStream());
                 }
@@ -72,26 +72,26 @@ public class FindTokens extends Task {
 
     private void processStream(final String resName, final InputStream stream)
             throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+        final BufferedReader br = new BufferedReader(
+                new InputStreamReader(stream));
         String line;
-        Set<String> tokens = new HashSet<String>();
+        final Set<String> tokens = new HashSet<String>();
 
         // Process each of the lines
         while ((line = br.readLine()) != null) {
             // Try to find @ tokens within the line.
             int curPos = 0;
-            int curStart = - 1;
+            int curStart = -1;
             int atPos;
 
-            while ((atPos = line.indexOf('@', curPos)) != - 1) {
-                if (curStart == - 1) {
+            while ((atPos = line.indexOf('@', curPos)) != -1) {
+                if (curStart == -1) {
                     // Token start
                     curStart = atPos;
-                }
-                else {
+                } else {
                     // Token end
-                    String token = line.substring(curStart, atPos + 1);
-                    if (! tokens.contains(token)) {
+                    final String token = line.substring(curStart, atPos + 1);
+                    if (!tokens.contains(token)) {
                         if (token.contains("@Environment.")
                                 || (token.contains("@Server."))
                                 || (token.contains("@Global."))
@@ -108,7 +108,7 @@ public class FindTokens extends Task {
         }
 
         // Dump the tokens
-        String[] tokenList = tokens.toArray(new String[tokens.size()]);
+        final String[] tokenList = tokens.toArray(new String[tokens.size()]);
         Arrays.sort(tokenList);
         if (tokenList.length > 0) {
             log(resName + ":", Project.MSG_INFO);
