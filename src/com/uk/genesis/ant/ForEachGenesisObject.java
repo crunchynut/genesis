@@ -100,22 +100,22 @@ public class ForEachGenesisObject extends BaseGenesisTask {
         // Create a macro attribute
         if (macroDef.getAttributes().isEmpty()) {
             if (pathParam != null) {
-                MacroDef.Attribute attribute = new MacroDef.Attribute();
+                final MacroDef.Attribute attribute = new MacroDef.Attribute();
                 attribute.setName(pathParam);
                 macroDef.addConfiguredAttribute(attribute);
             }
             if (nameParam != null) {
-                MacroDef.Attribute attribute = new MacroDef.Attribute();
+                final MacroDef.Attribute attribute = new MacroDef.Attribute();
                 attribute.setName(nameParam);
                 macroDef.addConfiguredAttribute(attribute);
             }
             if (qualifiednameParam != null) {
-                MacroDef.Attribute attribute = new MacroDef.Attribute();
+                final MacroDef.Attribute attribute = new MacroDef.Attribute();
                 attribute.setName(qualifiednameParam);
                 macroDef.addConfiguredAttribute(attribute);
             }
             if (typeParam != null) {
-                MacroDef.Attribute attribute = new MacroDef.Attribute();
+                final MacroDef.Attribute attribute = new MacroDef.Attribute();
                 attribute.setName(typeParam);
                 macroDef.addConfiguredAttribute(attribute);
             }
@@ -132,7 +132,7 @@ public class ForEachGenesisObject extends BaseGenesisTask {
                         + type, getLocation());
             }
 
-            GenesisObjectType containerType = enumType.getParent();
+            final GenesisObjectType containerType = enumType.getParent();
             enumObj = containerType.getInstance(in);
         } catch (ModelException ex) {
             throw new BuildException("Invalid enumerable object type - "
@@ -157,9 +157,10 @@ public class ForEachGenesisObject extends BaseGenesisTask {
     }
 
     protected void executeSingleIteration(final String name,
-            final String qualifiedName, final String typeName, final String path) {
+            final String qualifiedName, final String typeName,
+            final String path) {
         // Create the macro-instance
-        MacroInstance instance = new MacroInstance();
+        final MacroInstance instance = new MacroInstance();
         instance.setProject(getProject());
         instance.setOwningTarget(getOwningTarget());
         instance.setMacroDef(macroDef);
