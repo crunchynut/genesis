@@ -60,13 +60,14 @@ public class LoadConfig extends BaseGenesisTask {
     public void execute() throws BuildException {
         validate();
 
-        FilterSet filterSet = new FilterSet();
+        final FilterSet filterSet = new FilterSet();
 
         // Add the global configuration
         try {
-            Properties globalProps = getGenesisLoader()
+            final Properties globalProps = getGenesisLoader()
                     .getModelReader().getGlobalContentAsProperties();
-            filterSet.addConfiguredFilterSet(getFilterForProperties(globalProps));
+            filterSet.addConfiguredFilterSet(
+                    getFilterForProperties(globalProps));
         } catch (IOException ex) {
             throw new BuildException(
                     "Failed to load global configuration information",
@@ -81,21 +82,23 @@ public class LoadConfig extends BaseGenesisTask {
         for (GenesisObjectReference ref : objects) {
             if (ref.isValid(getProject())) {
                 try {
-                    GenesisObjectType type = getGenesisLoader()
-                            .getModelReader().findSingleObjectType(ref.getType());
+                    final GenesisObjectType type = getGenesisLoader()
+                            .getModelReader().findSingleObjectType(
+                                    ref.getType());
                     if (type == null) {
                         throw new BuildException(
                                 "Type " + ref.getType() + " is invalid",
                                  getLocation());
                     }
 
-                    GenesisObject obj = type.getInstance(ref.getName());
+                    final GenesisObject obj = type.getInstance(ref.getName());
 
                     // Now add filter sets for each of the files in
                     //the hierarchy
                     GenesisObject current = obj;
                     while (current != null) {
-                        filterSet.addConfiguredFilterSet(getFilterForObject(current));
+                        filterSet.addConfiguredFilterSet(
+                                getFilterForObject(current));
 
                         current = current.getParent();
                     }
@@ -109,9 +112,10 @@ public class LoadConfig extends BaseGenesisTask {
                             + " of type " + ref.getType() + " - "
                             + ex.getMessage(), ex, getLocation());
                 } catch (IOException ex) {
-                    throw new BuildException("Failed to load content for object "
-                            + ref.getName() + " of type " + ref.getType() + " - "
-                            + ex.getMessage(), ex, getLocation());
+                    throw new BuildException(
+                        "Failed to load content for object "
+                        + ref.getName() + " of type " + ref.getType()
+                        + " - " + ex.getMessage(), ex, getLocation());
                 }
             }
         }
@@ -134,14 +138,15 @@ public class LoadConfig extends BaseGenesisTask {
     }
 
     protected FilterSet getFilterForProperties(final Properties props) {
-        FilterSet result = new FilterSet();
+        final FilterSet result = new FilterSet();
 
         //TODO Consider using the stringPropertiesName method
-        Enumeration<?> propNames = props.propertyNames();
+        final Enumeration<?> propNames = props.propertyNames();
         while (propNames.hasMoreElements()) {
-            String propName = (String) propNames.nextElement();
+            final String propName = (String) propNames.nextElement();
             if (propName.startsWith(getType())) {
-                //System.out.println("propName = " + propName + "  Property = " + props.getProperty(propName));
+                //System.out.println("propName = " + propName
+                //+ "  Property = " + props.getProperty(propName));
                 //result.addFilter(propName, props.getProperty(propName));
                 getProject().setProperty(getMyPrefix() + propName,
                                             props.getProperty(propName));
