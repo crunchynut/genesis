@@ -39,9 +39,9 @@ public class GenesisObjectReference {
         }
 
         // Get all the properties we need to check
-        String[] properties = ifCheck.split(",");
+        final String[] properties = ifCheck.split(",");
         for (String property : properties) {
-            String cleanProp = property.trim();
+            final String cleanProp = property.trim();
 
             if (cleanProp.length() > 0) {
                 // If the property has an undefined value,
