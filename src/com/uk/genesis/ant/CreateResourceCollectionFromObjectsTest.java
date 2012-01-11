@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 
 public class CreateResourceCollectionFromObjectsTest extends TestCase {
     public void testValidatesTypeParameter() {
-        CreateResourceCollectionFromObjects task = new CreateResourceCollectionFromObjects();
+        final CreateResourceCollectionFromObjects task = new CreateResourceCollectionFromObjects();
         task.setProject(new Project());
         task.setGenesisxml("src/test/etc/genesis.xml");
         // task.setType("/Enterprise/Datacentre");
@@ -27,7 +27,7 @@ public class CreateResourceCollectionFromObjectsTest extends TestCase {
     }
 
     public void testValidatesFilesetParameter() {
-        CreateResourceCollectionFromObjects task = new CreateResourceCollectionFromObjects();
+        final CreateResourceCollectionFromObjects task = new CreateResourceCollectionFromObjects();
         task.setProject(new Project());
         task.setGenesisxml("etc/testdata/genesis.xml");
         task.setType("/Enterprise/Datacentre");
@@ -42,7 +42,7 @@ public class CreateResourceCollectionFromObjectsTest extends TestCase {
     }
 
     public void testHandlesNoInParameter() {
-        CreateResourceCollectionFromObjects task = new CreateResourceCollectionFromObjects();
+        final CreateResourceCollectionFromObjects task = new CreateResourceCollectionFromObjects();
         task.setProject(new Project());
         task.setGenesisxml("etc/testdata/genesis.xml");
         task.setType("/Enterprise/Datacentre");
@@ -53,7 +53,7 @@ public class CreateResourceCollectionFromObjectsTest extends TestCase {
     }
 
     public void testHandlesInParameter() {
-        CreateResourceCollectionFromObjects task = new CreateResourceCollectionFromObjects();
+        final CreateResourceCollectionFromObjects task = new CreateResourceCollectionFromObjects();
         task.setProject(new Project());
         task.setGenesisxml("etc/testdata/genesis.xml");
         task.setType("/Enterprise/Datacentre");
@@ -64,9 +64,9 @@ public class CreateResourceCollectionFromObjectsTest extends TestCase {
     }
 
     public void testValidatesType() {
-        Project project = new Project();
+        final Project project = new Project();
 
-        CreateResourceCollectionFromObjects task = new CreateResourceCollectionFromObjects();
+        final CreateResourceCollectionFromObjects task = new CreateResourceCollectionFromObjects();
         task.setProject(project);
         task.setGenesisxml("etc/testdata/genesis.xml");
         task.setType("/Enterprise/Datacentre-Invalid");
@@ -83,9 +83,9 @@ public class CreateResourceCollectionFromObjectsTest extends TestCase {
     }
 
     public void testCreatesFileset() {
-        Project proj = new Project();
+        final Project proj = new Project();
 
-        CreateResourceCollectionFromObjects task = new CreateResourceCollectionFromObjects();
+        final CreateResourceCollectionFromObjects task = new CreateResourceCollectionFromObjects();
         task.setProject(proj);
         task.setGenesisxml("etc/testdata/genesis.xml");
         task.setType("/Enterprise/Datacentre");
@@ -98,9 +98,9 @@ public class CreateResourceCollectionFromObjectsTest extends TestCase {
     }
 
     public void testFilesetHasValidEntries() {
-        Project proj = new Project();
+        final Project proj = new Project();
 
-        CreateResourceCollectionFromObjects task = new CreateResourceCollectionFromObjects();
+        final CreateResourceCollectionFromObjects task = new CreateResourceCollectionFromObjects();
         task.setProject(proj);
         task.setGenesisxml("etc/testdata/genesis.xml");
         task.setType("/Enterprise/Datacentre");
@@ -108,11 +108,11 @@ public class CreateResourceCollectionFromObjectsTest extends TestCase {
 
         task.execute();
 
-        ResourceCollection rc = (ResourceCollection) proj
+        final ResourceCollection rc = (ResourceCollection) proj
                 .getReference("FileSet");
         boolean foundDatacentre = false;
-        for (Iterator fsIt = rc.iterator(); fsIt.hasNext();) {
-            FileResource res = (FileResource) fsIt.next();
+        for (final Iterator fsIt = rc.iterator(); fsIt.hasNext();) {
+            final FileResource res = (FileResource) fsIt.next();
 
             assertEquals(
                     new File(
