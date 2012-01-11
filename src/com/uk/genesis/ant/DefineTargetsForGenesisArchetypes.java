@@ -22,8 +22,8 @@ import org.apache.tools.ant.taskdefs.Ant;
 import org.apache.tools.ant.taskdefs.Property;
 
 /**
- * Ant task that will automatically define ant tasks for actions that have been
- * defined in the genesis.xml file.
+ * Ant task that will automatically define ant tasks for actions
+ * that have been defined in the genesis.xml file.
  * @author paul.jones
  */
 public class DefineTargetsForGenesisArchetypes extends BaseGenesisTask {
@@ -68,7 +68,7 @@ public class DefineTargetsForGenesisArchetypes extends BaseGenesisTask {
 
         // Retrieve the factory, and works through the actions
         try {
-            ArchetypeFactory factory = getGenesisLoader().getArchetypeFactory();
+            final ArchetypeFactory factory = getGenesisLoader().getArchetypeFactory();
             for (GenesisArchetype archetype : factory.getArchetypes()) {
                 for (GenesisArchetypeOperation operation : archetype
                         .getOperations()) {
@@ -92,21 +92,23 @@ public class DefineTargetsForGenesisArchetypes extends BaseGenesisTask {
             final GenesisArchetypeOperation operation) throws ModelException,
             GenesisObjectNotFoundException {
         // Process the requirements and find the relevant matching objects
-        List<FulfilledGenesisActionRequirement> filledReqs = new ArrayList<FulfilledGenesisActionRequirement>();
+        final List<FulfilledGenesisActionRequirement> filledReqs =
+                new ArrayList<FulfilledGenesisActionRequirement>();
         for (GenesisArchetypeRequirement req : archetype.getRequirements()) {
-            GenesisObject[] reqObjs = enumerateObjectsForRequirement(req);
+            final GenesisObject[] reqObjs = enumerateObjectsForRequirement(req);
 
             filledReqs.add(new FulfilledGenesisActionRequirement(req, reqObjs));
         }
 
         // Generate the task
-        MultiRequirementTaskExecutor executor = new MultiRequirementTaskExecutor(
-                archetype, operation, filledReqs);
+        final MultiRequirementTaskExecutor executor =
+                new MultiRequirementTaskExecutor(
+                        archetype, operation, filledReqs);
         executor.setProject(getProject());
         executor.setTaskName("genesisaction");
 
         // Define a task that triggers the given action
-        Target target = new Target();
+        final Target target = new Target();
         target.setName(archetype.getName() + ":" + operation.getName());
         target.addTask(executor);
         if (targetsDependOn != null) {
@@ -143,30 +145,29 @@ public class DefineTargetsForGenesisArchetypes extends BaseGenesisTask {
     private GenesisObject[] enumerateObjectsForRequirement(
             final GenesisArchetypeRequirement req) throws ModelException,
             GenesisObjectNotFoundException {
-        GenesisObjectReference bestReference = getBestReferenceForRequirement(req);
-        ModelReader reader = getGenesisLoader().getModelReader();
+        final GenesisObjectReference bestReference =
+                getBestReferenceForRequirement(req);
+        final ModelReader reader = getGenesisLoader().getModelReader();
 
         // Generate a list of all objects that match the given requirement,
         // based on the best reference
 
         if (bestReference == null) {
             // We need to enumerate root objects
-            GenesisObjectType[] rootTypes = reader.getRootObjectTypes();
+            final GenesisObjectType[] rootTypes = reader.getRootObjectTypes();
 
             return EnumUtils.enumerateChildObjectsOfType(null, rootTypes,
                     req.getType());
-        }
-        else if (bestReference.getType().equals(
+        } else if (bestReference.getType().equals(
                 req.getType().getQualifiedName())) {
-            GenesisObject bestRefObj = req.getType().getInstance(
+            final GenesisObject bestRefObj = req.getType().getInstance(
                     bestReference.getName());
 
-            return new GenesisObject[] { bestRefObj };
-        }
-        else {
-            GenesisObjectType bestRefType = reader
+            return new GenesisObject[] {bestRefObj};
+        } else {
+            final GenesisObjectType bestRefType = reader
                     .findSingleObjectType(bestReference.getType());
-            GenesisObject bestRefObj = bestRefType.getInstance(bestReference
+            final GenesisObject bestRefObj = bestRefType.getInstance(bestReference
                     .getName());
 
             // Base at the best reference, and work from there
@@ -199,7 +200,7 @@ public class DefineTargetsForGenesisArchetypes extends BaseGenesisTask {
         private void executeRequirementAxis(final int pos) {
             // If the position exists, enumerate through each
             if (reqs.size() > pos) {
-                FulfilledGenesisActionRequirement req = reqs.get(pos);
+                final FulfilledGenesisActionRequirement req = reqs.get(pos);
 
                 for (GenesisObject obj : req.getObjects()) {
                     // Store the object currently being used on this axis
@@ -208,15 +209,14 @@ public class DefineTargetsForGenesisArchetypes extends BaseGenesisTask {
                     // Enumerate the next axis
                     executeRequirementAxis(pos + 1);
                 }
-            }
-            else {
+            } else {
                 // Log header
                 log("About to execute action " + archetype.getName()
                         + " with: ", Project.MSG_INFO);
 
                 // We're at the deepest level. We just need to build parameters
                 // and execute the call.
-                Ant actionCall = new Ant();
+                final Ant actionCall = new Ant();
 
                 // Configure the call
                 actionCall.setProject(getProject());
@@ -226,18 +226,18 @@ public class DefineTargetsForGenesisArchetypes extends BaseGenesisTask {
                 actionCall.setOwningTarget(getOwningTarget());
 
                 // Build the properties
-                for (int i = 0; i < reqs.size(); ++ i) {
+                for (int i = 0; i < reqs.size(); i++) {
 
-                    GenesisArchetypeRequirement req = reqs.get(i)
+                    final GenesisArchetypeRequirement req = reqs.get(i)
                             .getRequirement();
 
                     if (req.getQNameProperty() != null) {
-                        Property prop = actionCall.createProperty();
+                        final Property prop = actionCall.createProperty();
                         prop.setName(req.getQNameProperty());
                         prop.setValue(axisInstances[i].getQualifiedName());
                     }
                     if (req.getNameProperty() != null) {
-                        Property prop = actionCall.createProperty();
+                        final Property prop = actionCall.createProperty();
                         prop.setName(req.getNameProperty());
                         prop.setValue(axisInstances[i].getName());
                     }
