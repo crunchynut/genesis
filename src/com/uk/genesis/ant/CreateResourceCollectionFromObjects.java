@@ -50,12 +50,12 @@ public class CreateResourceCollectionFromObjects extends BaseGenesisTask {
         validate();
 
         try {
-            FileList result = new FileList();
+            final FileList result = new FileList();
             result.setDir(new File("."));
             result.setProject(getProject());
 
-            ModelReader mr = getGenesisLoader().getModelReader();
-            GenesisObjectType objType = mr.findSingleObjectType(type);
+            final ModelReader mr = getGenesisLoader().getModelReader();
+            final GenesisObjectType objType = mr.findSingleObjectType(type);
             if (objType == null) {
                 throw new BuildException("Type " + type + " is invalid",
                         getLocation());
@@ -64,19 +64,18 @@ public class CreateResourceCollectionFromObjects extends BaseGenesisTask {
             // Get all the instances of the object
             GenesisObject[] instances = null;
             if (in != null) {
-                GenesisObject parent = objType.getParent().getInstance(in);
+                final GenesisObject parent = objType.getParent().getInstance(in);
                 instances = EnumUtils.enumerateChildObjectsOfType(parent,
                         objType);
-            }
-            else {
-                GenesisObjectType[] rootTypes = mr.getRootObjectTypes();
+            } else {
+                final GenesisObjectType[] rootTypes = mr.getRootObjectTypes();
                 instances = EnumUtils.enumerateChildObjectsOfType(null,
                         rootTypes, objType);
             }
 
             // Build the fileset
             for (GenesisObject obj : instances) {
-                FileList.FileName filename = new FileList.FileName();
+                final FileList.FileName filename = new FileList.FileName();
                 filename.setName(obj.getContentLocation().getAbsolutePath());
 
                 result.addConfiguredFile(filename);
