@@ -15,8 +15,8 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.FilterSet;
 
 /**
- * Creates a filterset using the provided objects. This filterset can then
- * be used in various filtering operations.
+ * Creates a filterset using the provided objects. This
+ * filterset can then be used in various filtering operations.
  *
  * @author paul.jones
  * @author hussein.badakhchani
@@ -36,10 +36,14 @@ public class CreateFilterSetUsingObjects extends BaseGenesisTask {
 
     public void addConfiguredObject(final GenesisObjectReference objRef) {
         if (objRef.getName() == null) {
-            throw new BuildException("property name is required on declared objects", getLocation());
+            throw new BuildException(
+                "property name is required on declared objects",
+                getLocation());
         }
         if (objRef.getType() == null) {
-            throw new BuildException("property type is required on declared objects", getLocation());
+            throw new BuildException(
+                "property type is required on declared objects",
+                getLocation());
         }
 
         objects.add(objRef);
@@ -48,30 +52,39 @@ public class CreateFilterSetUsingObjects extends BaseGenesisTask {
     public void execute() throws BuildException {
         validate();
 
-        FilterSet filterSet = new FilterSet();
+        final FilterSet filterSet = new FilterSet();
 
         // Add the global configuration
         try {
-            Properties globalProps = getGenesisLoader().getModelReader().getGlobalContentAsProperties();
-            filterSet.addConfiguredFilterSet(getFilterForProperties(globalProps));
+            final Properties globalProps = getGenesisLoader().
+                    getModelReader().getGlobalContentAsProperties();
+            filterSet.addConfiguredFilterSet(
+                    getFilterForProperties(globalProps));
         } catch (IOException ex) {
-            throw new BuildException("Failed to load global configuration information", ex, getLocation());
+            throw new BuildException(
+                "Failed to load global configuration information",
+                ex, getLocation());
         } catch (ModelException ex) {
-            throw new BuildException("Failed to load global configuration information", ex, getLocation());
+            throw new BuildException(
+                "Failed to load global configuration information",
+                ex, getLocation());
         }
 
         // Work through each object
         for (GenesisObjectReference ref : objects) {
             if (ref.isValid(getProject())) {
                 try {
-                    GenesisObjectType type = getGenesisLoader().getModelReader().findSingleObjectType(ref.getType());
+                    final GenesisObjectType type = getGenesisLoader().
+                        getModelReader().findSingleObjectType(ref.getType());
                     if (type == null) {
-                        throw new BuildException("Type " + ref.getType() + " is invalid", getLocation());
+                        throw new BuildException("Type "
+                    + ref.getType() + " is invalid", getLocation());
                     }
 
-                    GenesisObject obj = type.getInstance(ref.getName());
+                    final GenesisObject obj = type.getInstance(ref.getName());
 
-                    // Now add filter sets for each of the files in the hierarchy
+                    // Now add filter sets for each of
+                    // the files in the hierarchy
                     GenesisObject current = obj;
                     while (current != null) {
                         filterSet.addConfiguredFilterSet(getFilterForObject(current));
@@ -79,13 +92,19 @@ public class CreateFilterSetUsingObjects extends BaseGenesisTask {
                         current = current.getParent();
                     }
                 } catch (ModelException ex) {
-                    throw new BuildException("Failed to find type " + ref.getType() + " - " + ex.getMessage(), ex, getLocation());
+                    throw new BuildException(
+                        "Failed to find type " + ref.getType()
+                        + " - " + ex.getMessage(), ex, getLocation());
                 } catch (GenesisObjectNotFoundException ex) {
-                    throw new BuildException("Failed to find object " + ref.getName() + " of type " + ref.getType() + " - " + ex.getMessage(), ex,
-                            getLocation());
+                    throw new BuildException(
+                        "Failed to find object " + ref.getName()
+                        + " of type " + ref.getType() + " - "
+                        + ex.getMessage(), ex, getLocation());
                 } catch (IOException ex) {
-                    throw new BuildException("Failed to load content for object " + ref.getName() + " of type " + ref.getType() + " - " + ex.getMessage(), ex,
-                            getLocation());
+                    throw new BuildException(
+                        "Failed to load content for object "
+                        + ref.getName() + " of type " + ref.getType()
+                        + " - " + ex.getMessage(), ex, getLocation());
                 }
             }
         }
@@ -97,21 +116,23 @@ public class CreateFilterSetUsingObjects extends BaseGenesisTask {
         super.validate();
 
         if (filterSetId == null) {
-            throw new BuildException("property filtersetid is required", getLocation());
+            throw new BuildException(
+                "property filtersetid is required", getLocation());
         }
     }
 
-    protected FilterSet getFilterForObject(final GenesisObject object) throws IOException {
+    protected FilterSet getFilterForObject(final GenesisObject object)
+            throws IOException {
         return getFilterForProperties(object.getContentAsProperties());
     }
 
     protected FilterSet getFilterForProperties(final Properties props) {
-        FilterSet result = new FilterSet();
+        final FilterSet result = new FilterSet();
 
         //TODO Consider changing this to use the stringPropertyNames method
-        Enumeration<?> propNames = props.propertyNames();
+        final Enumeration<?> propNames = props.propertyNames();
         while (propNames.hasMoreElements()) {
-            String propName = (String) propNames.nextElement();
+            final String propName = (String) propNames.nextElement();
             result.addFilter(propName, props.getProperty(propName));
         }
 
