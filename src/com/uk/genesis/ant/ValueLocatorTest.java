@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 public class ValueLocatorTest extends TestCase {
     public void testValidatesTypeIsSet() {
-        ValueLocator locator = new ValueLocator();
+        final ValueLocator locator = new ValueLocator();
         locator.setProject(new Project());
         locator.setGenesisxml("etc/testdata/genesis.xml");
         locator.setProperty("Environment.Test");
@@ -21,7 +21,7 @@ public class ValueLocatorTest extends TestCase {
     }
 
     public void testValidatesPropertyIsSet() {
-        ValueLocator locator = new ValueLocator();
+        final ValueLocator locator = new ValueLocator();
         locator.setProject(new Project());
         locator.setGenesisxml("etc/testdata/genesis.xml");
         locator.setType("/Enterprise/Service/Environment");
@@ -35,7 +35,7 @@ public class ValueLocatorTest extends TestCase {
     }
 
     public void testValidatesType() {
-        ValueLocator locator = new ValueLocator();
+        final ValueLocator locator = new ValueLocator();
         locator.setProject(new Project());
         locator.setGenesisxml("etc/testdata/genesis.xml");
         locator.setType("/Enterprise/Service/Environment-Invalid");
