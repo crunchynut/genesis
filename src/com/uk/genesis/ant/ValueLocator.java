@@ -44,20 +44,21 @@ public class ValueLocator extends BaseGenesisTask {
         validate();
 
         // Retrieve the model reader, and resolve the type
-        ModelReader mr = getGenesisLoader().getModelReader();
+        final ModelReader mr = getGenesisLoader().getModelReader();
         try {
-            GenesisObjectType objType = mr.findSingleObjectType(getType());
+            final GenesisObjectType objType = 
+                    mr.findSingleObjectType(getType());
             if (objType == null) {
                 throw new BuildException("The type " + getType()
                                 + " is invalid", getLocation());
             }
 
             // Find all instances of the type
-            GenesisObject[] allInstances = getAllInstances(objType);
+            final GenesisObject[] allInstances = getAllInstances(objType);
 
             // Enumerate all values of the variable
             for (GenesisObject instance : allInstances) {
-                Properties props = instance.getContentAsProperties();
+                final Properties props = instance.getContentAsProperties();
 
                 if (props.containsKey(getProperty())) {
                     log(instance.getQualifiedName() + ": "
@@ -86,14 +87,14 @@ public class ValueLocator extends BaseGenesisTask {
     protected GenesisObject[] getAllInstances(final GenesisObjectType objType)
             throws ModelException {
         // If the type is a root object, then just get its instances
-        GenesisObjectType parentType = objType.getParent();
+        final GenesisObjectType parentType = objType.getParent();
         if (parentType == null) {
             return objType.getAllChildInstances(null);
         }
 
         // Get all parent instances
-        GenesisObject[] parents = getAllInstances(parentType);
-        List<GenesisObject> result = new ArrayList<GenesisObject>();
+        final GenesisObject[] parents = getAllInstances(parentType);
+        final List<GenesisObject> result = new ArrayList<GenesisObject>();
         for (GenesisObject parent : parents) {
             result.addAll(Arrays.asList(objType.getAllChildInstances(parent)));
         }
