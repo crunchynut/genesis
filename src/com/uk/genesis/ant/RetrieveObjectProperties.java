@@ -17,15 +17,15 @@ public class RetrieveObjectProperties extends BaseGenesisTask {
 
     public void execute() {
 
-        FilterSet fs = (FilterSet) getProject().getReference(filtername);
+        final FilterSet fs = (FilterSet) getProject().getReference(filtername);
 
         // Add the global configuration
 
-        Map<?, ?> map = fs.getFilterHash();
+        final Map<?, ?> map = fs.getFilterHash();
 
-        for (Iterator<?> it = map.keySet().iterator(); it.hasNext();) {
-            Object key = it.next();
-            Object value = map.get(key);
+        for (final Iterator<?> it = map.keySet().iterator(); it.hasNext();) {
+            final Object key = it.next();
+            final Object value = map.get(key);
             // Add to Global properties
             addToProject(key.toString(), value.toString());
             // System.out.println("found map key : " + key.toString() +
