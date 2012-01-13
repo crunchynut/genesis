@@ -21,8 +21,10 @@ public class PropertyGoffer extends BaseGenesisTask {
     private List<PropertyMatch> goffer = new ArrayList<PropertyMatch>();
 
     public void addConfiguredGoffer(final PropertyMatch propMatch) {
-        if (propMatch.getValueset() == null || propMatch.getValueset() == null) {
-            throw new BuildException("goffer must specify valueget & valueset",
+        if (propMatch.getValueset() == null ||
+                propMatch.getValueset() == null) {
+            throw new BuildException(
+                    "goffer must specify valueget & valueset",
                     getLocation());
         }
         goffer.add(propMatch);
@@ -31,17 +33,20 @@ public class PropertyGoffer extends BaseGenesisTask {
     public void execute() {
         validate();
         try {
-            ModelReader modelReader = getGenesisLoader().getModelReader();
-            GenesisObjectType type = modelReader
+            final ModelReader modelReader =
+                    getGenesisLoader().getModelReader();
+            final GenesisObjectType type = modelReader
                     .findSingleObjectType(getType());
             if (type == null) {
-                throw new BuildException("Type " + getType() + " is invalid");
+                throw new BuildException("Type " + getType()
+                        + " is invalid");
             }
-            GenesisObject object = type.getInstance(getName());
-            Properties props = object.getContentAsProperties();
+            final GenesisObject object = type.getInstance(getName());
+            final Properties props = object.getContentAsProperties();
 
-            for (Iterator<PropertyMatch> pm = goffer.iterator(); pm.hasNext();) {
-                PropertyMatch pmval = pm.next();
+            for (final Iterator<PropertyMatch> pm =
+                    goffer.iterator(); pm.hasNext();) {
+                final PropertyMatch pmval = pm.next();
                 System.out.println("getting : " + pmval.getValueget());
                 System.out.println("setting : " + pmval.getValueset());
                 getProject().setProperty(pmval.getValueset(),
