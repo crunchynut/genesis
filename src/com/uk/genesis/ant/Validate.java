@@ -38,7 +38,7 @@ public class Validate extends BaseGenesisTask {
         validate();
 
         // Fetch the model reader
-        ModelReader modelReader = getGenesisLoader().getModelReader();
+        final ModelReader modelReader = getGenesisLoader().getModelReader();
 
         // Checking whether the validations succeeded
         boolean success = true;
@@ -47,9 +47,9 @@ public class Validate extends BaseGenesisTask {
         if (this.objectName != null) {
             try {
                 // Try to find the object
-                GenesisObjectType type = modelReader
+                final GenesisObjectType type = modelReader
                         .findSingleObjectType(this.objectType);
-                GenesisObject obj = type.getInstance(this.objectName);
+                final GenesisObject obj = type.getInstance(this.objectName);
 
                 success = validateObject(obj);
             } catch (ModelException ex) {
@@ -61,17 +61,16 @@ public class Validate extends BaseGenesisTask {
                         + this.objectName + " was not found - "
                         + ex.getMessage(), ex, getLocation());
             }
-        }
-        else {
+        } else {
             try {
                 // Walk through each of instance of each root type
                 for (GenesisObjectType rootType : modelReader
                         .getRootObjectTypes()) {
-                    GenesisObject[] rootInstances = rootType
+                    final GenesisObject[] rootInstances = rootType
                             .getAllChildInstances(null);
 
                     for (GenesisObject rootInstance : rootInstances) {
-                        if (! validateObject(rootInstance)) {
+                        if (!validateObject(rootInstance)) {
                             success = false;
                         }
                     }
@@ -82,7 +81,7 @@ public class Validate extends BaseGenesisTask {
             }
         }
 
-        if (! success) {
+        if (!success) {
             throw new BuildException("Validation failed", getLocation());
         }
     }
@@ -129,9 +128,10 @@ public class Validate extends BaseGenesisTask {
         // If we're validating children, do the children too
         if (validateChildren) {
             try {
-                for (GenesisObjectType childType : obj.getType().getChildren()) {
+                for (GenesisObjectType childType : obj.getType()
+                                                .getChildren()) {
                     for (GenesisObject child : obj.getChildren(childType)) {
-                        if (! validateObject(child)) {
+                        if (!validateObject(child)) {
                             result = false;
                         }
                     }
