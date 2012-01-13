@@ -53,9 +53,9 @@ public class UsageLocator extends Task {
             // Work through each of the supplied resources,
             // and search for tokens
             for (ResourceCollection col : resources) {
-                for (Iterator<?> resourceIt = col.iterator(); resourceIt
-                        .hasNext();) {
-                    Resource res = (Resource) resourceIt.next();
+                for (final Iterator<?> resourceIt = col.iterator();
+                        resourceIt.hasNext();) {
+                    final Resource res = (Resource) resourceIt.next();
 
                     if (processStream(res.getName(), res.getInputStream())) {
                         // The file had the token in it
@@ -74,9 +74,10 @@ public class UsageLocator extends Task {
         }
     }
 
-    private boolean processStream(final String resName, final InputStream stream)
-            throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+    private boolean processStream(final String resName,
+            final InputStream stream) throws IOException {
+        final BufferedReader br = new BufferedReader(
+                new InputStreamReader(stream));
         String line;
 
         // Process each of the lines
