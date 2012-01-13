@@ -9,8 +9,8 @@ import junit.framework.TestCase;
 
 public class ResolveGenesisObjectFileNameTest extends TestCase {
     public void testThrowsBuildExceptionForMissingGenesisXml() {
-        Project project = new Project();
-        ResolveGenesisObjectFileName task = new ResolveGenesisObjectFileName();
+        final Project project = new Project();
+        final ResolveGenesisObjectFileName task = new ResolveGenesisObjectFileName();
         task.setProject(project);
 
         // task.setGenesisxml("genesis.xml");
@@ -28,8 +28,8 @@ public class ResolveGenesisObjectFileNameTest extends TestCase {
     }
 
     public void testThrowsBuildExceptionForMissingType() {
-        Project project = new Project();
-        ResolveGenesisObjectFileName task = new ResolveGenesisObjectFileName();
+        final Project project = new Project();
+        final ResolveGenesisObjectFileName task = new ResolveGenesisObjectFileName();
         task.setProject(project);
 
         task.setGenesisxml("genesis.xml");
@@ -47,8 +47,8 @@ public class ResolveGenesisObjectFileNameTest extends TestCase {
     }
 
     public void testThrowsBuildExceptionForMissingName() {
-        Project project = new Project();
-        ResolveGenesisObjectFileName task = new ResolveGenesisObjectFileName();
+        final Project project = new Project();
+        final ResolveGenesisObjectFileName task = new ResolveGenesisObjectFileName();
         task.setProject(project);
 
         task.setGenesisxml("genesis.xml");
@@ -66,8 +66,8 @@ public class ResolveGenesisObjectFileNameTest extends TestCase {
     }
 
     public void testThrowsBuildExceptionForMissingProperty() {
-        Project project = new Project();
-        ResolveGenesisObjectFileName task = new ResolveGenesisObjectFileName();
+        final Project project = new Project();
+        final ResolveGenesisObjectFileName task = new ResolveGenesisObjectFileName();
         task.setProject(project);
 
         task.setGenesisxml("genesis.xml");
@@ -85,8 +85,8 @@ public class ResolveGenesisObjectFileNameTest extends TestCase {
     }
 
     public void testSetsPropertyForValidQuery() {
-        Project project = new Project();
-        ResolveGenesisObjectFileName task = new ResolveGenesisObjectFileName();
+        final Project project = new Project();
+        final ResolveGenesisObjectFileName task = new ResolveGenesisObjectFileName();
         task.setProject(project);
 
         task.setGenesisxml("etc/testdata/genesis.xml");
@@ -96,7 +96,7 @@ public class ResolveGenesisObjectFileNameTest extends TestCase {
 
         task.execute();
 
-        File expected = new File(
+        final File expected = new File(
                 "etc/testdata/config/MyEnterprise-00/physical/MyDatacentre-00/MyRack-00/MyNode-00/node.xml");
         assertEquals(expected.getAbsolutePath(),
                 project.getProperty("foundobject"));
