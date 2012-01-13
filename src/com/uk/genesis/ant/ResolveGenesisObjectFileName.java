@@ -35,9 +35,9 @@ public class ResolveGenesisObjectFileName extends BaseGenesisTask {
 
         try {
             // Try to find the object
-            GenesisObjectType type = getGenesisLoader().getModelReader()
-                    .findSingleObjectType(this.objectType);
-            GenesisObject obj = type.getInstance(this.objectName);
+            final GenesisObjectType type = getGenesisLoader()
+                    .getModelReader().findSingleObjectType(this.objectType);
+            final GenesisObject obj = type.getInstance(this.objectName);
 
             // Output the property
             getProject().setProperty(this.propertyName,
@@ -55,10 +55,12 @@ public class ResolveGenesisObjectFileName extends BaseGenesisTask {
         super.validate();
 
         if (this.objectType == null) {
-            throw new BuildException("property type is required", getLocation());
+            throw new BuildException(
+                    "property type is required", getLocation());
         }
         if (this.objectName == null) {
-            throw new BuildException("property name is required", getLocation());
+            throw new BuildException(
+                    "property name is required", getLocation());
         }
         if (this.propertyName == null) {
             throw new BuildException("property property is required",
