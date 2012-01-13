@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 public class RetrieveObjectPropertyTest extends TestCase {
     public void testValidatesTypeParameter() {
-        RetrieveObjectProperty task = new RetrieveObjectProperty();
+        final RetrieveObjectProperty task = new RetrieveObjectProperty();
         task.setProject(new Project());
         task.setGenesisxml("etc/testdata/genesis.xml");
         // task.setType("/Enterprise/Datacentre");
@@ -24,7 +24,7 @@ public class RetrieveObjectPropertyTest extends TestCase {
     }
 
     public void testValidatesNameParameter() {
-        RetrieveObjectProperty task = new RetrieveObjectProperty();
+        final RetrieveObjectProperty task = new RetrieveObjectProperty();
         task.setProject(new Project());
         task.setGenesisxml("etc/testdata/genesis.xml");
         task.setType("/Enterprise/Datacentre");
@@ -41,7 +41,7 @@ public class RetrieveObjectPropertyTest extends TestCase {
     }
 
     public void testValidatesPropertyParameter() {
-        RetrieveObjectProperty task = new RetrieveObjectProperty();
+        final RetrieveObjectProperty task = new RetrieveObjectProperty();
         task.setProject(new Project());
         task.setGenesisxml("etc/testdata/genesis.xml");
         task.setType("/Enterprise/Datacentre");
@@ -58,7 +58,7 @@ public class RetrieveObjectPropertyTest extends TestCase {
     }
 
     public void testValidatesTokenParameter() {
-        RetrieveObjectProperty task = new RetrieveObjectProperty();
+        final RetrieveObjectProperty task = new RetrieveObjectProperty();
         task.setProject(new Project());
         task.setGenesisxml("etc/testdata/genesis.xml");
         task.setType("/Enterprise/Datacentre");
@@ -75,9 +75,9 @@ public class RetrieveObjectPropertyTest extends TestCase {
     }
 
     public void testValidatesType() {
-        Project project = new Project();
+        final Project project = new Project();
 
-        RetrieveObjectProperty task = new RetrieveObjectProperty();
+        final RetrieveObjectProperty task = new RetrieveObjectProperty();
         task.setProject(project);
         task.setGenesisxml("etc/testdata/genesis.xml");
         task.setType("/Enterprise/Datacentre-Invalid");
@@ -96,9 +96,9 @@ public class RetrieveObjectPropertyTest extends TestCase {
     }
 
     public void testValidatesName() {
-        Project project = new Project();
+        final Project project = new Project();
 
-        RetrieveObjectProperty task = new RetrieveObjectProperty();
+        final RetrieveObjectProperty task = new RetrieveObjectProperty();
         task.setProject(project);
         task.setGenesisxml("etc/testdata/genesis.xml");
         task.setType("/Enterprise/Datacentre");
@@ -118,9 +118,9 @@ public class RetrieveObjectPropertyTest extends TestCase {
     }
 
     public void testSetsPropertyOnCompletion() {
-        Project project = new Project();
+        final Project project = new Project();
 
-        RetrieveObjectProperty task = new RetrieveObjectProperty();
+        final RetrieveObjectProperty task = new RetrieveObjectProperty();
         task.setProject(project);
         task.setGenesisxml("etc/testdata/genesis.xml");
         task.setType("/Enterprise/Datacentre");
