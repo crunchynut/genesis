@@ -54,14 +54,16 @@ public class RetrieveObjectProperty extends BaseGenesisTask {
         validate();
 
         try {
-            ModelReader modelReader = getGenesisLoader().getModelReader();
-            GenesisObjectType type = modelReader
+            final ModelReader modelReader =
+                    getGenesisLoader().getModelReader();
+            final GenesisObjectType type = modelReader
                     .findSingleObjectType(getType());
             if (type == null) {
-                throw new BuildException("Type " + getType() + " is invalid");
+                throw new BuildException(
+                        "Type " + getType() + " is invalid");
             }
-            GenesisObject object = type.getInstance(getName());
-            Properties props = object.getContentAsProperties();
+            final GenesisObject object = type.getInstance(getName());
+            final Properties props = object.getContentAsProperties();
             getProject().setProperty(getProperty(),
                     props.getProperty(getToken()));
         } catch (ModelException ex) {
